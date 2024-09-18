@@ -9,44 +9,37 @@ import java.sql.ResultSet;
 public class DatabaseUtilDAO {
     static Connection connection = null;
 
-    public DatabaseUtilDAO() throws SQLException {
-        getConnection();
-    }
-
-    public void getConnection() throws SQLException {
+    private boolean getConnection() throws SQLException {
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:database/estoque.db");
             if (connection != null) {
                 System.out.println("Conexão bem-sucedida!");
-                PreparedStatement stmt = connection.prepareStatement("SELECT * FROM produtos");
-                ResultSet rs = stmt.executeQuery();
-
-                System.out.println("==================================");
-                while (rs.next()) {
-                    String nome = rs.getString("nome");
-                    int quantidade = rs.getInt("quantidade");
-                    double preco = rs.getDouble("preco");
-                    String categoria = rs.getString("categoria");
-
-                    System.out.println("nome: "+nome);
-                    System.out.println("categoria: "+categoria);
-                    System.out.println("preço: "+ preco);
-                    System.out.println("quantidade: "+quantidade);
-                    System.out.println("============================");
-                }
-            } else {
-                System.out.println("Não foi possível conectar ao banco de dados.");
+                return true;
             }
         } catch (SQLException e) {
             System.out.println("Erro ao conectar ao banco de dados.");
             e.printStackTrace();
-        } finally {
-            close();
-            System.out.println("Conexão finalizada!");
         }
+        return false;
     }
 
-    public static void close() throws SQLException {
-        connection.close();
+    public ResultSet executeQuery(String query) throws SQLException {
+        try {
+            if(getConnection()) {
+                PreparedStatement stmt = connection.prepareStatement(query);
+                return stmt.executeQuery();
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao conectar ao banco de dados.");
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void close() throws SQLException {
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
+            System.out.println("Conexão Encerrada");
+        }
     }
 }
