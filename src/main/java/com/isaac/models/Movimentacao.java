@@ -7,13 +7,7 @@ public class Movimentacao {
     private String data;
     private Produto produto;
 
-    public Movimentacao(int idMovimentacao, String tipo, Produto produto, int quantidade, String data) {
-        this.idMovimentacao = idMovimentacao;
-        this.tipo = tipo;
-        this.produto = produto;
-        this.quantidade = quantidade;
-        this.data = data;
-    }
+    public Movimentacao() {}
 
     public int getIdMovimentacao() {
         return idMovimentacao;

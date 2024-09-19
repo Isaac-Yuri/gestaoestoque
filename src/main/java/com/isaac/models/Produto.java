@@ -1,29 +1,13 @@
 package com.isaac.models;
 
 public class Produto {
-    private int idProduto;
     private int quantidade;
     private double preco;
     private String nome;
     private String categoria;
     private Fornecedor fornecedor;
 
-    public Produto(int idProduto, String nome, int quantidade, Fornecedor fornecedor, String categoria, double preco) {
-        this.idProduto = idProduto;
-        this.nome = nome;
-        this.quantidade = quantidade;
-        this.fornecedor = fornecedor;
-        this.categoria = categoria;
-        this.preco = preco;
-    }
-
-    public int getIdProduto() {
-        return idProduto;
-    }
-
-    public void setIdProduto(int idProduto) {
-        this.idProduto = idProduto;
-    }
+    public Produto() {}
 
     public String getNome() {
         return nome;
