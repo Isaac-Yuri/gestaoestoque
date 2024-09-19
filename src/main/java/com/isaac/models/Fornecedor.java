@@ -3,7 +3,7 @@ package com.isaac.models;
 public class Fornecedor {
     private int idFornecedor;
     private String nome;
-    private String telefone;
+    private String contato;
     private String endereco;
 
     public Fornecedor() {}
@@ -24,12 +24,12 @@ public class Fornecedor {
         this.nome = nome;
     }
 
-    public String getTelefone() {
-        return telefone;
+    public String getContato() {
+        return contato;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public void setContato(String contato) {
+        this.contato = contato;
     }
 
     public String getEndereco() {

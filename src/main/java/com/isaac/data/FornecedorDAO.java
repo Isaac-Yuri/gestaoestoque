@@ -29,7 +29,7 @@ public class FornecedorDAO extends DAO {
                     Fornecedor fornecedor = new Fornecedor();
                     fornecedor.setNome(res.getString("nome"));
                     fornecedor.setEndereco(res.getString("endereco"));
-                    fornecedor.setTelefone(res.getString("telefone"));
+                    fornecedor.setContato(res.getString("contato"));
 
                     fornecedores.add(fornecedor);
                 }
@@ -44,10 +44,24 @@ public class FornecedorDAO extends DAO {
         return fornecedores;
     }
 
-    @Override
-    public void add() throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'add'");
+    
+    public void add(Fornecedor fornecedor) throws SQLException {
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(urlDatabase);
+            String insert = "INSERT INTO fornecedores(nome, contato, endereco) VALUES(?, ?, ?)";
+            PreparedStatement stmt = con.prepareStatement(insert);
+            stmt.setQueryTimeout(30);
+            stmt.setString(1, fornecedor.getNome());
+            stmt.setString(2, fornecedor.getContato());
+            stmt.setString(3, fornecedor.getEndereco());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("ERROR AO ADICIONAR FORNECEDOR!");
+            e.printStackTrace();
+        } finally {
+            con.close();
+        }
     }
 
     @Override
@@ -60,6 +74,11 @@ public class FornecedorDAO extends DAO {
     public void delete() throws SQLException {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    }
+
+    @Override
+    public void add() throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }
