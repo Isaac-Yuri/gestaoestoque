@@ -3,12 +3,14 @@ package com.isaac.data;
 import java.sql.SQLException;
 import java.util.List;
 
-public abstract class DAO {
-    protected final String urlDatabase = "jdbc:sqlite:database/estoque.db";
+public interface DAO<T> {
+    public final String urlDatabase = "jdbc:sqlite:database/estoque.db";
 
-    @SuppressWarnings("rawtypes")
-    public abstract List getAll() throws SQLException;
-    public abstract void add() throws SQLException;
-    public abstract void update() throws SQLException;
-    public abstract void delete() throws SQLException;
+    public List<T> getAll() throws SQLException;
+
+    public void add(T entidade) throws SQLException;
+
+    public void update(T entidade) throws SQLException;
+
+    public void delete(int id) throws SQLException;
 }
