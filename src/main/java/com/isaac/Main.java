@@ -5,15 +5,11 @@ import java.util.List;
 
 import com.isaac.data.FornecedorDAO;
 import com.isaac.models.Fornecedor;
+;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
         FornecedorDAO fornecedorDAO = new FornecedorDAO();
-        Fornecedor fornecedor1 = new Fornecedor();
-        fornecedor1.setNome("FornecedorD");
-        fornecedor1.setContato("contato@fornecedord.com");
-        fornecedor1.setEndereco("Rua das Índias, 540");
-        fornecedorDAO.add(fornecedor1);
 
         List <Fornecedor> fornecedores = fornecedorDAO.getAll();
 
@@ -23,5 +19,6 @@ public class Main {
             System.out.println(fornecedor.getEndereco());
             System.out.println("=====================");
         }
+        fornecedorDAO.update(4, "Fornecedor D", "contato@fornecedord.com", "Rua Olinda, 721");
     }
 }

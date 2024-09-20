@@ -57,17 +57,31 @@ public class FornecedorDAO extends DAO {
             stmt.setString(3, fornecedor.getEndereco());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("ERROR AO ADICIONAR FORNECEDOR!");
+            System.out.println("ERRO AO ADICIONAR FORNECEDOR!");
             e.printStackTrace();
         } finally {
             con.close();
         }
     }
 
-    @Override
-    public void update() throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    public void update(int id_fornecedor, String nome, String contato, String endereco) throws SQLException {
+        Connection con = null;
+        try{
+            con = DriverManager.getConnection(urlDatabase);
+            String update = "UPDATE fornecedores SET nome =  ?, contato = ?, endereco = ? WHERE id_fornecedor = ?";
+            PreparedStatement stmt = con.prepareStatement(update);
+            stmt.setQueryTimeout(30);
+            stmt.setString(1, nome);
+            stmt.setString(2, contato);
+            stmt.setString(3, endereco);
+            stmt.setInt(4, id_fornecedor);
+            stmt.executeUpdate();
+        } catch(SQLException e) {
+            System.out.println("ERRO AO ATUALIZAR O FORNECEDOR!");
+            e.printStackTrace();
+        } finally {
+            con.close();
+        }
     }
 
     @Override
@@ -78,6 +92,11 @@ public class FornecedorDAO extends DAO {
 
     @Override
     public void add() throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void update() throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
