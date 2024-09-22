@@ -44,7 +44,6 @@ public class FornecedorDAO extends DAO {
         return fornecedores;
     }
 
-    
     public void add(Fornecedor fornecedor) throws SQLException {
         Connection con = null;
         try {
@@ -84,10 +83,22 @@ public class FornecedorDAO extends DAO {
         }
     }
 
-    @Override
-    public void delete() throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    
+    public void delete(int id_fornecedor) throws SQLException {
+        Connection con = null;
+        try{
+            con = DriverManager.getConnection(urlDatabase);
+            String delete = "DELETE FROM fornecedores WHERE id_fornecedor = ?";
+            PreparedStatement stmt = con.prepareStatement(delete);
+            stmt.setQueryTimeout(30);
+            stmt.setInt(1, id_fornecedor);
+            stmt.executeUpdate();
+        } catch(SQLException e){
+            System.out.println("ERRO AO DELETAR O FORNECEDOR!");
+            e.printStackTrace();
+        } finally{
+            con.close();
+        }
     }
 
     @Override
@@ -97,6 +108,11 @@ public class FornecedorDAO extends DAO {
 
     @Override
     public void update() throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void delete() throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

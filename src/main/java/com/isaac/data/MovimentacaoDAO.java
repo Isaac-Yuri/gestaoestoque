@@ -44,22 +44,58 @@ public class MovimentacaoDAO extends DAO {
         return movimentacoes;
     }
 
+   public void add(Movimentacao movimentacao) throws SQLException {
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(urlDatabase);
+            String insert = "INSERT INTO MOVIMENTACAO(quantidade, tipo, data) VALUES(?, ?, ?)";
+            PreparedStatement stmt = con.prepareStatement(insert);
+            stmt.setQueryTimeout(30);
+            stmt.setInt(1, movimentacao.getIdMovimentacao());
+            stmt.setInt(2, movimentacao.getQuantidade());
+            stmt.setString(3, movimentacao.getTipo());
+            stmt.setString(4, movimentacao.getData());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("ERRO AO CADASTRAR MOVIMENTACAO!");
+            e.printStackTrace();
+        } finally {
+            con.close();
+        }
+    }
+
+    public void update(int idMovimentacao, int quantidade, String tipo, String data) throws SQLException {
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(urlDatabase);
+            String update = "UPDATE movimentacoes SET = quantidade = ?, tipo = ?, data = ? WHERE idMovimentacao = ?";
+            PreparedStatement stmt = con.prepareStatement(update);
+            stmt.setQueryTimeout(30);
+            stmt.setInt(1, quantidade);
+            stmt.setString(2, tipo);
+            stmt.setString(3, data);
+            stmt.setInt(4, idMovimentacao);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("ERRO AO ATUALIZAR MOVIMENTACAO!");
+            e.printStackTrace();
+        } finally {
+            con.close();
+        }    }
+
+    @Override
+    public void delete() throws SQLException {
+        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    }
+
     @Override
     public void add() throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'add'");
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void update() throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
-    }
-
-    @Override
-    public void delete() throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }
