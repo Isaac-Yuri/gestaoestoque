@@ -10,7 +10,7 @@ import java.util.List;
 
 import com.isaac.models.Movimentacao;
 
-public class MovimentacaoDAO extends DAO {
+public class MovimentacaoDAO implements DAO{
 
     @Override
     public List<Movimentacao> getAll() throws SQLException {
@@ -84,17 +84,17 @@ public class MovimentacaoDAO extends DAO {
         }    }
 
     @Override
-    public void delete() throws SQLException {
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
-    }
-
-    @Override
-    public void add() throws SQLException {
+    public void add(Object entidade) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void update() throws SQLException {
+    public void update(Object entidade) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void delete(int id) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

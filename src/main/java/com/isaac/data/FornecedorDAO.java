@@ -10,7 +10,7 @@ import java.util.List;
 
 import com.isaac.models.Fornecedor;
 
-public class FornecedorDAO extends DAO {
+public class FornecedorDAO implements DAO<Fornecedor> {
 
     @Override
     public List<Fornecedor> getAll() throws SQLException {
@@ -27,6 +27,7 @@ public class FornecedorDAO extends DAO {
 
                 while (res.next()) {
                     Fornecedor fornecedor = new Fornecedor();
+                    fornecedor.setIdFornecedor(res.getInt("id_fornecedor"));
                     fornecedor.setNome(res.getString("nome"));
                     fornecedor.setEndereco(res.getString("endereco"));
                     fornecedor.setContato(res.getString("contato"));
@@ -47,7 +48,7 @@ public class FornecedorDAO extends DAO {
     public void add(Fornecedor fornecedor) throws SQLException {
         Connection con = null;
         try {
-            con = DriverManager.getConnection(urlDatabase);
+            con = DriverManager.getConnection(FornecedorDAO.urlDatabase);
             String insert = "INSERT INTO fornecedores(nome, contato, endereco) VALUES(?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(insert);
             stmt.setQueryTimeout(30);
@@ -63,17 +64,17 @@ public class FornecedorDAO extends DAO {
         }
     }
 
-    public void update(int id_fornecedor, String nome, String contato, String endereco) throws SQLException {
+    public void update(Fornecedor fornecedor) throws SQLException {
         Connection con = null;
         try{
             con = DriverManager.getConnection(urlDatabase);
             String update = "UPDATE fornecedores SET nome =  ?, contato = ?, endereco = ? WHERE id_fornecedor = ?";
             PreparedStatement stmt = con.prepareStatement(update);
             stmt.setQueryTimeout(30);
-            stmt.setString(1, nome);
-            stmt.setString(2, contato);
-            stmt.setString(3, endereco);
-            stmt.setInt(4, id_fornecedor);
+            stmt.setString(1, fornecedor.getNome());
+            stmt.setString(2, fornecedor.getContato());
+            stmt.setString(3, fornecedor.getEndereco());
+            stmt.setInt(4, fornecedor.getIdFornecedor());
             stmt.executeUpdate();
         } catch(SQLException e) {
             System.out.println("ERRO AO ATUALIZAR O FORNECEDOR!");
@@ -82,7 +83,6 @@ public class FornecedorDAO extends DAO {
             con.close();
         }
     }
-
     
     public void delete(int id_fornecedor) throws SQLException {
         Connection con = null;
@@ -101,19 +101,18 @@ public class FornecedorDAO extends DAO {
         }
     }
 
-    @Override
+    
     public void add() throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
+    
     public void update() throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
+    
     public void delete() throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
 }

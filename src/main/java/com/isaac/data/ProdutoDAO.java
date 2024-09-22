@@ -10,7 +10,7 @@ import java.util.List;
 
 import com.isaac.models.Produto;
 
-public class ProdutoDAO extends DAO {
+public class ProdutoDAO implements DAO {
 
     @Override
     public List<Produto> getAll() throws SQLException {
@@ -46,17 +46,17 @@ public class ProdutoDAO extends DAO {
     }
 
     @Override
-    public void add() throws SQLException {
-        throw new UnsupportedOperationException("Unimplemented method 'add'");
+    public void add(Object entidade) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void update() throws SQLException {
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    public void update(Object entidade) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void delete() throws SQLException {
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    public void delete(int id) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
