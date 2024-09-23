@@ -100,19 +100,4 @@ public class FornecedorDAO implements DAO<Fornecedor> {
             con.close();
         }
     }
-
-    
-    public void add() throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    
-    public void update() throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    
-    public void delete() throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 }
