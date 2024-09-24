@@ -10,7 +10,7 @@ import java.util.List;
 
 import com.isaac.models.Movimentacao;
 
-public class MovimentacaoDAO implements DAO{
+public class MovimentacaoDAO implements DAO<Movimentacao>{
 
     @Override
     public List<Movimentacao> getAll() throws SQLException {
@@ -64,38 +64,40 @@ public class MovimentacaoDAO implements DAO{
         }
     }
 
-    public void update(int idMovimentacao, int quantidade, String tipo, String data) throws SQLException {
+    public void update(Movimentacao movimentacao) throws SQLException {
         Connection con = null;
         try {
             con = DriverManager.getConnection(urlDatabase);
             String update = "UPDATE movimentacoes SET = quantidade = ?, tipo = ?, data = ? WHERE idMovimentacao = ?";
             PreparedStatement stmt = con.prepareStatement(update);
             stmt.setQueryTimeout(30);
-            stmt.setInt(1, quantidade);
-            stmt.setString(2, tipo);
-            stmt.setString(3, data);
-            stmt.setInt(4, idMovimentacao);
+            stmt.setInt(1, movimentacao.getQuantidade());
+            stmt.setString(2, movimentacao.getTipo());
+            stmt.setString(3, movimentacao.getData());
+            stmt.setInt(4, movimentacao.getIdMovimentacao());
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("ERRO AO ATUALIZAR MOVIMENTACAO!");
             e.printStackTrace();
         } finally {
             con.close();
-        }    }
-
-    @Override
-    public void add(Object entidade) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        }    
     }
 
-    @Override
-    public void update(Object entidade) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void delete(int id_movimentacao) throws SQLException {
+        Connection con = null;
+        try{
+            con = DriverManager.getConnection(urlDatabase);
+            String delete = "DELETE FROM movimentacoes WHERE id_movimentacao = ?";
+            PreparedStatement stmt = con.prepareStatement(delete);
+            stmt.setQueryTimeout(30);
+            stmt.setInt(1, id_movimentacao);
+            stmt.executeUpdate();
+        } catch(SQLException e){
+            System.out.println("ERRO AO DELETAR O FORNECEDOR!");
+            e.printStackTrace();
+        } finally{
+            con.close();
+        }
     }
-
-    @Override
-    public void delete(int id) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
 }
