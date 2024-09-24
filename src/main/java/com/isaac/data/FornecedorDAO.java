@@ -12,7 +12,6 @@ import com.isaac.models.Fornecedor;
 
 public class FornecedorDAO implements DAO<Fornecedor> {
 
-    @Override
     public List<Fornecedor> getAll() throws SQLException {
         List<Fornecedor> fornecedores = new ArrayList<>();
         Connection conn = null;
