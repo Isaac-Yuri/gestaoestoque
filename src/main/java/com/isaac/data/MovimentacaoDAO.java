@@ -48,7 +48,7 @@ public class MovimentacaoDAO implements DAO<Movimentacao>{
         Connection con = null;
         try {
             con = DriverManager.getConnection(urlDatabase);
-            String insert = "INSERT INTO MOVIMENTACAO(quantidade, tipo, data) VALUES(?, ?, ?)";
+            String insert = "INSERT INTO movimentacao(quantidade, tipo, data) VALUES(?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(insert);
             stmt.setQueryTimeout(30);
             stmt.setInt(1, movimentacao.getIdMovimentacao());
@@ -68,7 +68,7 @@ public class MovimentacaoDAO implements DAO<Movimentacao>{
         Connection con = null;
         try {
             con = DriverManager.getConnection(urlDatabase);
-            String update = "UPDATE movimentacoes SET = quantidade = ?, tipo = ?, data = ? WHERE idMovimentacao = ?";
+            String update = "UPDATE movimentacoes SET quantidade = ?, tipo = ?, data = ? WHERE idMovimentacao = ?";
             PreparedStatement stmt = con.prepareStatement(update);
             stmt.setQueryTimeout(30);
             stmt.setInt(1, movimentacao.getQuantidade());

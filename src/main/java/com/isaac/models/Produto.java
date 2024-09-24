@@ -1,6 +1,7 @@
 package com.isaac.models;
 
 public class Produto {
+    private int idProduto;
     private int quantidade;
     private double preco;
     private String nome;
@@ -9,6 +10,8 @@ public class Produto {
 
     public Produto() {}
 
+
+    
     public String getNome() {
         return nome;
     }
@@ -47,6 +50,14 @@ public class Produto {
 
     public void setPreco(double preco) {
         this.preco = preco;
+    }
+
+    public int getIdProduto() {
+        return idProduto;
+    }
+
+    public void setIdProduto(int idProduto) {
+        this.idProduto = idProduto;
     }
 
 }

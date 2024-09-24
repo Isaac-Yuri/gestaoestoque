@@ -10,9 +10,8 @@ import java.util.List;
 
 import com.isaac.models.Produto;
 
-public class ProdutoDAO implements DAO {
+public class ProdutoDAO implements DAO<Produto> {
 
-    @Override
     public List<Produto> getAll() throws SQLException {
         List<Produto> produtos = new ArrayList<>();
         Connection conn = null;
@@ -45,18 +44,63 @@ public class ProdutoDAO implements DAO {
         return produtos;
     }
 
-    @Override
-    public void add(Object entidade) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void add(Produto produto) throws SQLException {
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(urlDatabase);
+            String insert = "INSERT INTO produto(nome, categoria, quantidade, preco, id_fornecedor) VALUES(?, ?, ?, ?, ?)";
+            PreparedStatement stmt = con.prepareStatement(insert);
+            stmt.setQueryTimeout(30);
+            stmt.setString(1, produto.getNome());
+            stmt.setString(2, produto.getCategoria());
+            stmt.setInt(3, produto.getQuantidade());
+            stmt.setDouble(4, produto.getPreco());
+            stmt.setInt(5, produto.getFornecedor().getIdFornecedor());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("ERRO AO CADASTRAR PRODUTO!");
+            e.printStackTrace();
+        } finally {
+            con.close();
+        }
     }
 
-    @Override
-    public void update(Object entidade) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void update(Produto produto) throws SQLException {
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(urlDatabase);
+            String update = "UPDATE produtos SET nome = ?, categoria = ?, quantidade = ?, preco = ?, id_fornecedor = ? WHERE id_produto = ?";
+            PreparedStatement stmt = con.prepareStatement(update);
+            stmt.setQueryTimeout(30);
+            stmt.setString(1, produto.getNome());
+            stmt.setString(2, produto.getCategoria());
+            stmt.setInt(3, produto.getQuantidade());
+            stmt.setDouble(4, produto.getPreco());
+            stmt.setInt(5, produto.getFornecedor().getIdFornecedor());
+            stmt.setInt(6, produto.getIdProduto());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("ERRO AO ATUALIZAR PRODUTOS!");
+            e.printStackTrace();
+        } finally {
+            con.close();
+        }
     }
 
-    @Override
-    public void delete(int id) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void delete(int idProduto) throws SQLException {
+        Connection con = null;
+        try{
+            con = DriverManager.getConnection(urlDatabase);
+            String delete = "DELETE FROM produtos WHERE id_produto = ?";
+            PreparedStatement stmt = con.prepareStatement(delete);
+            stmt.setQueryTimeout(30);
+            stmt.setInt(0, idProduto);
+            stmt.executeUpdate();
+        } catch(SQLException e){
+            System.out.println("ERRO AO DELETAR O PRODUTO!");
+            e.printStackTrace();
+        } finally{
+            con.close();
+        }    
     }
 }
