@@ -2,7 +2,6 @@ package com.isaac.models;
 
 import java.sql.SQLException;
 
-import com.isaac.data.FornecedorDAO;
 
 public class Produto {
     private int idProduto;
