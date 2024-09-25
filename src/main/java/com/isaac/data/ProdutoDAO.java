@@ -132,7 +132,7 @@ public class ProdutoDAO implements DAO<Produto> {
             String delete = "DELETE FROM produtos WHERE id_produto = ?";
             PreparedStatement stmt = con.prepareStatement(delete);
             stmt.setQueryTimeout(30);
-            stmt.setInt(0, idProduto);
+            stmt.setInt(1, idProduto);
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("ERRO AO DELETAR O PRODUTO!");
