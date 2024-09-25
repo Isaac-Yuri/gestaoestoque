@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sqlite.SQLiteException;
+
 import com.isaac.models.Fornecedor;
 
 public class FornecedorDAO implements DAO<Fornecedor> {
@@ -42,6 +44,32 @@ public class FornecedorDAO implements DAO<Fornecedor> {
             System.out.println("Conexão Encerrada!");
         }
         return fornecedores;
+    }
+
+
+    public Fornecedor getFornecedorById(int id_fornecedor) throws SQLException {
+        Connection conn = null;
+        Fornecedor fornecedor = new Fornecedor();
+        try {
+            String query = "SELECT * FROM fornecedores WHERE id_fornecedor = ?";
+            conn = DriverManager.getConnection(urlDatabase);
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setInt(1, id_fornecedor);
+            ResultSet res = stmt.executeQuery();
+
+            while (res.next()) {
+                fornecedor.setIdFornecedor(res.getInt("id_fornecedor"));
+                fornecedor.setNome(res.getString("nome"));
+                fornecedor.setEndereco(res.getString("endereco"));
+                fornecedor.setContato(res.getString("contato"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao obter fornecedor por id ou id de fornecedor não encontrado no banco!");
+            e.printStackTrace();
+        } finally {
+            conn.close();
+        }
+        return fornecedor;
     }
 
     public void add(Fornecedor fornecedor) throws SQLException {
