@@ -31,6 +31,7 @@ public class ProdutoDAO implements DAO<Produto> {
                     produto.setQuantidade(res.getInt("quantidade"));
                     produto.setPreco(res.getDouble("preco"));
                     produto.setCategoria(res.getString("categoria"));
+                    produto.setFornecedor(res.getInt("id_fornecedor"));
 
                     produtos.add(produto);
                 }
@@ -48,7 +49,7 @@ public class ProdutoDAO implements DAO<Produto> {
         Connection con = null;
         try {
             con = DriverManager.getConnection(urlDatabase);
-            String insert = "INSERT INTO produto(nome, categoria, quantidade, preco, id_fornecedor) VALUES(?, ?, ?, ?, ?)";
+            String insert = "INSERT INTO produtos(nome, categoria, quantidade, preco, id_fornecedor) VALUES(?, ?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(insert);
             stmt.setQueryTimeout(30);
             stmt.setString(1, produto.getNome());

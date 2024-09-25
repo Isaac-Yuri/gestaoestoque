@@ -1,5 +1,9 @@
 package com.isaac.models;
 
+import java.sql.SQLException;
+
+import com.isaac.data.FornecedorDAO;
+
 public class Produto {
     private int idProduto;
     private int quantidade;
@@ -10,8 +14,6 @@ public class Produto {
 
     public Produto() {}
 
-
-    
     public String getNome() {
         return nome;
     }
@@ -32,7 +34,10 @@ public class Produto {
         return fornecedor;
     }
 
-    public void setFornecedor(Fornecedor fornecedor) {
+    public void setFornecedor(int id_fornecedor) throws SQLException {
+        Fornecedor fornecedor = new Fornecedor();
+        FornecedorDAO fornecedorDAO = new FornecedorDAO();
+        fornecedor = fornecedorDAO.getFornecedorById(id_fornecedor);
         this.fornecedor = fornecedor;
     }
 
