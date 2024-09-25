@@ -34,10 +34,7 @@ public class Produto {
         return fornecedor;
     }
 
-    public void setFornecedor(int id_fornecedor) throws SQLException {
-        Fornecedor fornecedor = new Fornecedor();
-        FornecedorDAO fornecedorDAO = new FornecedorDAO();
-        fornecedor = fornecedorDAO.getFornecedorById(id_fornecedor);
+    public void setFornecedor(Fornecedor fornecedor) throws SQLException {
         this.fornecedor = fornecedor;
     }
 
