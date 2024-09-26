@@ -10,94 +10,87 @@ import java.util.List;
 
 import com.isaac.models.Movimentacao;
 
-public class MovimentacaoDAO implements DAO<Movimentacao>{
+public class MovimentacaoDAO implements DAO<Movimentacao> {
 
-    @Override
     public List<Movimentacao> getAll() throws SQLException {
         List<Movimentacao> movimentacoes = new ArrayList<>();
-        Connection conn = null;
-        try {
-            String query = "SELECT * FROM movimentacoes";
-            conn = DriverManager.getConnection(urlDatabase);
+        String query = "SELECT * FROM movimentacoes";
 
-            if (conn != null) {
-                System.out.println("Conexão bem sucedida!");
-                PreparedStatement stmt = conn.prepareStatement(query);
-                ResultSet res = stmt.executeQuery();
+        try (Connection conn = DriverManager.getConnection(urlDatabase);
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet res = stmt.executeQuery()) {
 
-                while (res.next()) {
-                    Movimentacao movimentacao = new Movimentacao();
-                    movimentacao.setTipo(res.getString("tipo"));
-                    movimentacao.setQuantidade(res.getInt("quantidade"));
-                    movimentacao.setData(res.getString("data"));
+            System.out.println("Conexão bem sucedida!");
 
-                    movimentacoes.add(movimentacao);
-                }
+            while (res.next()) {
+                Movimentacao movimentacao = new Movimentacao();
+                movimentacao.setIdMovimentacao(res.getInt("id_movimentacao"));
+                movimentacao.setTipo(res.getString("tipo"));
+                movimentacao.setQuantidade(res.getInt("quantidade"));
+                movimentacao.setData(res.getString("data"));
+
+                movimentacoes.add(movimentacao);
             }
         } catch (SQLException e) {
             System.out.println("Erro na Conexão");
             e.printStackTrace();
-        } finally {
-            conn.close();
-            System.out.println("Conexão Encerrada!");
         }
         return movimentacoes;
     }
 
-   public void add(Movimentacao movimentacao) throws SQLException {
-        Connection con = null;
-        try {
-            con = DriverManager.getConnection(urlDatabase);
-            String insert = "INSERT INTO movimentacao(quantidade, tipo, data) VALUES(?, ?, ?)";
-            PreparedStatement stmt = con.prepareStatement(insert);
+    public void add(Movimentacao movimentacao) throws SQLException {
+        String insert = "INSERT INTO movimentacoes(quantidade, tipo, data) VALUES(?, ?, ?)";
+
+        try (Connection con = DriverManager.getConnection(urlDatabase);
+             PreparedStatement stmt = con.prepareStatement(insert)) {
+
             stmt.setQueryTimeout(30);
-            stmt.setInt(1, movimentacao.getIdMovimentacao());
-            stmt.setInt(2, movimentacao.getQuantidade());
-            stmt.setString(3, movimentacao.getTipo());
-            stmt.setString(4, movimentacao.getData());
+            stmt.setInt(1, movimentacao.getQuantidade());
+            stmt.setString(2, movimentacao.getTipo());
+            stmt.setString(3, movimentacao.getData());
+
             stmt.executeUpdate();
+            System.out.println("Movimentação cadastrada com sucesso!");
         } catch (SQLException e) {
-            System.out.println("ERRO AO CADASTRAR MOVIMENTACAO!");
+            System.out.println("ERRO AO CADASTRAR MOVIMENTAÇÃO!");
             e.printStackTrace();
-        } finally {
-            con.close();
         }
     }
 
     public void update(Movimentacao movimentacao) throws SQLException {
-        Connection con = null;
-        try {
-            con = DriverManager.getConnection(urlDatabase);
-            String update = "UPDATE movimentacoes SET quantidade = ?, tipo = ?, data = ? WHERE idMovimentacao = ?";
-            PreparedStatement stmt = con.prepareStatement(update);
+        String update = "UPDATE movimentacoes SET quantidade = ?, tipo = ?, data = ? WHERE id_movimentacao = ?";
+
+        try (Connection con = DriverManager.getConnection(urlDatabase);
+             PreparedStatement stmt = con.prepareStatement(update)) {
+
             stmt.setQueryTimeout(30);
             stmt.setInt(1, movimentacao.getQuantidade());
             stmt.setString(2, movimentacao.getTipo());
             stmt.setString(3, movimentacao.getData());
             stmt.setInt(4, movimentacao.getIdMovimentacao());
+
             stmt.executeUpdate();
+            System.out.println("Movimentação atualizada com sucesso!");
         } catch (SQLException e) {
-            System.out.println("ERRO AO ATUALIZAR MOVIMENTACAO!");
+            System.out.println("ERRO AO ATUALIZAR MOVIMENTAÇÃO!");
             e.printStackTrace();
-        } finally {
-            con.close();
-        }    
+        }
     }
 
     public void delete(int id_movimentacao) throws SQLException {
-        Connection con = null;
-        try{
-            con = DriverManager.getConnection(urlDatabase);
-            String delete = "DELETE FROM movimentacoes WHERE id_movimentacao = ?";
-            PreparedStatement stmt = con.prepareStatement(delete);
+        String delete = "DELETE FROM movimentacoes WHERE id_movimentacao = ?";
+
+        try (Connection con = DriverManager.getConnection(urlDatabase);
+             PreparedStatement stmt = con.prepareStatement(delete)) {
+
             stmt.setQueryTimeout(30);
             stmt.setInt(1, id_movimentacao);
+
             stmt.executeUpdate();
-        } catch(SQLException e){
-            System.out.println("ERRO AO DELETAR O FORNECEDOR!");
+            System.out.println("Movimentação deletada com sucesso!");
+        } catch (SQLException e) {
+            System.out.println("ERRO AO DELETAR A MOVIMENTAÇÃO!");
             e.printStackTrace();
-        } finally{
-            con.close();
         }
     }
 }
