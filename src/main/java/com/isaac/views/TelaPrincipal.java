@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -94,12 +95,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jButton3.setText("Atualizar");
         jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                atualizarProduto(evt);
+                
             }
         });
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                try {
+                    atualizarProduto(evt);
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -206,11 +212,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jTProdutos.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTProdutosKeyReleased(evt);
-            }
-        });
         jScrollPane1.setViewportView(jTProdutos);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -320,108 +321,46 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
     }
 
-    private void atualizarProduto(java.awt.event.MouseEvent evt) {
+    private void atualizarProduto(ActionEvent evt) throws SQLException {
         int selectedRow = jTProdutos.getSelectedRow();
         ProdutoDAO produtoDAO = new ProdutoDAO();
         FornecedorDAO fornecedorDAO = new FornecedorDAO();
+    
+        if (selectedRow != -1) {
+            int idProduto = Integer.parseInt(jTProdutos.getValueAt(selectedRow, 0).toString());
+            Produto produtoExistente = produtoDAO.getProdutoById(idProduto);
 
-        try {
-            if (selectedRow != -1) {
-                // Obter o produto existente do banco de dados
-                int idProduto = Integer.parseInt(jTProdutos.getValueAt(selectedRow, 0).toString());
-                Produto produtoExistente = produtoDAO.getProdutoById(idProduto);
-
-                // Verificar quais campos foram preenchidos para atualizar apenas os valores
-                // fornecidos
-                String novoNome = txtDesc.getText().isEmpty() ? produtoExistente.getNome() : txtDesc.getText();
-
-                // Verificar se a quantidade é válida
-                int novaQtd = produtoExistente.getQuantidade(); // valor padrão
-                if (!txtQtd.getText().isEmpty()) {
-                    if (txtQtd.getText().matches("\\d+")) { // Verifica se é um número inteiro positivo
-                        novaQtd = Integer.parseInt(txtQtd.getText());
-                    } else {
-                        throw new NumberFormatException("Quantidade inválida. Insira um número inteiro.");
-                    }
-                }
-
-                // Verificar se o preço é válido
-                double novoPreco = produtoExistente.getPreco(); // valor padrão
-                if (!txtPreco.getText().isEmpty()) {
-                    if (txtPreco.getText().matches("\\d+(\\.\\d{1,2})?")) { // Verifica se é um número decimal
-                        novoPreco = Double.parseDouble(txtPreco.getText());
-                    } else {
-                        throw new NumberFormatException("Preço inválido. Insira um valor numérico (ex: 10.99).");
-                    }
-                }
-
-                // Atualizar o fornecedor apenas se o campo não estiver vazio
-                Fornecedor novoFornecedor = txtFornecedor.getText().isEmpty()
-                        ? produtoExistente.getFornecedor()
-                        : fornecedorDAO.getFornecedorByNome(txtFornecedor.getText());
-
-                String novaCategoria = txtCategoria.getText().isEmpty() ? produtoExistente.getCategoria()
-                        : txtCategoria.getText();
-
-                // Atualizar o produto com os novos valores
-                produtoExistente.setNome(novoNome);
-                produtoExistente.setQuantidade(novaQtd);
-                produtoExistente.setPreco(novoPreco);
-                produtoExistente.setFornecedor(novoFornecedor);
-                produtoExistente.setCategoria(novaCategoria);
-
-                // Atualizar o produto no banco de dados
-                produtoDAO.update(produtoExistente);
-
-                // Atualizar a tabela com os novos valores
-                DefaultTableModel dtmProdutos = (DefaultTableModel) jTProdutos.getModel();
-                dtmProdutos.setValueAt(produtoExistente.getNome(), selectedRow, 1);
-                dtmProdutos.setValueAt(produtoExistente.getQuantidade(), selectedRow, 2);
-                dtmProdutos.setValueAt(produtoExistente.getPreco(), selectedRow, 3);
-                dtmProdutos.setValueAt(produtoExistente.getFornecedor().getNome(), selectedRow, 4);
-                dtmProdutos.setValueAt(produtoExistente.getCategoria(), selectedRow, 5);
-
-                limparCampos();
-                JOptionPane.showMessageDialog(null, "Produto atualizado com sucesso!");
-            } else {
-                JOptionPane.showMessageDialog(null, "Selecione um produto para atualizar.");
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Erro: " + e.getMessage(), "Erro de Formato",
-                    JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao acessar o banco de dados: " + e.getMessage(),
-                    "Erro de Banco de Dados", JOptionPane.ERROR_MESSAGE);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Ocorreu um erro inesperado: " + e.getMessage(), "Erro",
-                    JOptionPane.ERROR_MESSAGE);
+            String novoNome = txtDesc.getText().isEmpty() ? produtoExistente.getNome() : txtDesc.getText();
+            int novaQtd = txtQtd.getText().isEmpty() ? produtoExistente.getQuantidade() : Integer.parseInt(txtQtd.getText());
+            double novoPreco = txtPreco.getText().isEmpty() ? produtoExistente.getPreco() : Double.parseDouble(txtPreco.getText());
+    
+            Fornecedor novoFornecedor = txtFornecedor.getText().isEmpty() 
+                                        ? produtoExistente.getFornecedor() 
+                                        : fornecedorDAO.getFornecedorByNome(txtFornecedor.getText());
+            
+            String novaCategoria = txtCategoria.getText().isEmpty() ? produtoExistente.getCategoria() : txtCategoria.getText();
+    
+            produtoExistente.setNome(novoNome);
+            produtoExistente.setQuantidade(novaQtd);
+            produtoExistente.setPreco(novoPreco);
+            produtoExistente.setFornecedor(novoFornecedor);
+            produtoExistente.setCategoria(novaCategoria);
+    
+            produtoDAO.update(produtoExistente);
+    
+            DefaultTableModel dtmProdutos = (DefaultTableModel) jTProdutos.getModel();
+            dtmProdutos.setValueAt(produtoExistente.getNome(), selectedRow, 1);
+            dtmProdutos.setValueAt(produtoExistente.getQuantidade(), selectedRow, 2);
+            dtmProdutos.setValueAt(produtoExistente.getPreco(), selectedRow, 3);
+            dtmProdutos.setValueAt(produtoExistente.getFornecedor().getNome(), selectedRow, 4);
+            dtmProdutos.setValueAt(produtoExistente.getCategoria(), selectedRow, 5);
+    
+            limparCampos();
+            JOptionPane.showMessageDialog(null, "Produto atualizado com sucesso!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Selecione um produto para atualizar.");
         }
     }
-
-    private void jTProdutosKeyReleased(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_jTProdutosKeyReleased
-        // TODO add your handling code here:
-
-        if (jTProdutos.getSelectedRow() != -1) {
-
-            txtDesc.setText(jTProdutos.getValueAt(jTProdutos.getSelectedRow(), 0).toString());
-            txtQtd.setText(jTProdutos.getValueAt(jTProdutos.getSelectedRow(), 1).toString());
-            txtPreco.setText(jTProdutos.getValueAt(jTProdutos.getSelectedRow(), 2).toString());
-
-        }
-    }// GEN-LAST:event_jTProdutosKeyReleased
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-
-        if (jTProdutos.getSelectedRow() != -1) {
-
-            jTProdutos.setValueAt(txtDesc.getText(), jTProdutos.getSelectedRow(), 0);
-            jTProdutos.setValueAt(txtQtd.getText(), jTProdutos.getSelectedRow(), 1);
-            jTProdutos.setValueAt(txtPreco.getText(), jTProdutos.getSelectedRow(), 2);
-
-        }
-
-    }// GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
