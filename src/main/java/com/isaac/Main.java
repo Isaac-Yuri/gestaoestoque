@@ -4,39 +4,29 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.isaac.data.FornecedorDAO;
-import com.isaac.data.MovimentacaoDAO;
-import com.isaac.models.Fornecedor;
-import com.isaac.models.Movimentacao;
-;
+import com.isaac.data.ProdutoDAO;
+import com.isaac.models.Produto;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
+        ProdutoDAO produtoDAO = new ProdutoDAO();
         FornecedorDAO fornecedorDAO = new FornecedorDAO();
-        
-        List <Fornecedor> fornecedores = fornecedorDAO.getAll();
-        
 
-        for (Fornecedor fornecedor:fornecedores) {
-            System.out.println(fornecedor.getNome());
-            System.out.println(fornecedor.getContato());
-            System.out.println(fornecedor.getEndereco());
-            System.out.println("=====================");
+        Produto notebookUpdate = produtoDAO.getProdutoById(3);
+        System.out.println(notebookUpdate.getNome());
+
+        notebookUpdate.setFornecedor(fornecedorDAO.getFornecedorById(2));
+
+        produtoDAO.update(notebookUpdate);
+        produtoDAO.delete(7);
+
+        List<Produto> produtos = produtoDAO.getAll();
+        
+        for(Produto produto: produtos) {
+            System.out.println("Nome: " + produto.getNome());
+            System.out.println("Preço: " + produto.getPreco());
+            System.out.println("Fornecedor: " + produto.getFornecedor().getNome());
+            System.out.println("======================");
         }
-        
-
-        //TESTE DE MOVIMENTAÇÕES!
-        MovimentacaoDAO movimentacaoDAO = new MovimentacaoDAO();
-
-        List <Movimentacao> movimentacoes = movimentacaoDAO.getAll();
-        
-        for (Movimentacao movimentacao:movimentacoes){
-            System.out.println(movimentacao.getIdMovimentacao());
-            System.out.println(movimentacao.getQuantidade());
-            System.out.println(movimentacao.getTipo());
-            System.out.println(movimentacao.getData());
-            System.out.println("==========================");
-        }
-    
-        
     }
 }

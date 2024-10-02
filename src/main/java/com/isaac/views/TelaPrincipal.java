@@ -21,7 +21,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         initComponents();
 
         ProdutoDAO dao = new ProdutoDAO();
-        List<Produto> produtos = dao.getAll(); // Obter todos os produtos
+        List<Produto> produtos = dao.getAll();
 
         DefaultTableModel modelo = (DefaultTableModel) jTProdutos.getModel();
         for (Produto produto : produtos) {
@@ -42,17 +42,21 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void initComponents() throws SQLException {
 
+        jMenuBar = new javax.swing.JMenuBar();
+        jMenu = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
-        txtDesc = new javax.swing.JTextField();
+        txtNome = new javax.swing.JTextField();
         txtQtd = new javax.swing.JTextField();
         txtPreco = new javax.swing.JTextField();
-        txtFornecedor = new javax.swing.JTextField(); // Novo campo para fornecedor
-        txtCategoria = new javax.swing.JTextField(); // Novo campo para data de movimentação
+        txtFornecedor = new javax.swing.JTextField();
+        txtCategoria = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel(); // Novo label para fornecedor
-        jLabel5 = new javax.swing.JLabel(); // Novo label para data de movimentação
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -64,11 +68,26 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         setTitle("Gestão De Estoque");
 
+        jMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/user.png"))); // NOI18N
+        jMenu.setText("Produtos");
+
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/user_add.png"))); // NOI18N
+        jMenuItem1.setText("Fornecedores");
+        jMenu.add(jMenuItem1);
+
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/user_edit.png"))); // NOI18N
+        jMenuItem2.setText("Movimentações");
+        jMenu.add(jMenuItem2);
+
+        jMenuBar.add(jMenu);
+
+        setJMenuBar(jMenuBar);
+
         jLabel1.setText("Nome");
         jLabel2.setText("Quantidade");
         jLabel3.setText("Preço");
-        jLabel4.setText("Fornecedor"); // Label para fornecedor
-        jLabel5.setText("Categoria"); // Label para categoria
+        jLabel4.setText("Fornecedor");
+        jLabel5.setText("Categoria");
 
         jButton1.setText("Cadastrar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -95,7 +114,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jButton3.setText("Atualizar");
         jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                
+
             }
         });
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -103,13 +122,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 try {
                     atualizarProduto(evt);
                 } catch (SQLException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
         });
 
-        // Layout atualizado
+        // Definição do layout de jPanel1
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -120,7 +138,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addGroup(jPanel1Layout
                                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(jLabel1))
                                                 .addGap(18, 18, 18)
@@ -141,7 +159,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                                                         .addComponent(txtFornecedor,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE, 246,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(jLabel4)) // Campo fornecedor
+                                                        .addComponent(jLabel4))
                                                 .addGap(18, 18, 18)
                                                 .addGroup(jPanel1Layout
                                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,7 +185,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                                         .addComponent(jLabel3))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(txtDesc, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(txtQtd, javax.swing.GroupLayout.PREFERRED_SIZE,
@@ -196,12 +214,30 @@ public class TelaPrincipal extends javax.swing.JFrame {
                                         .addComponent(jButton3))
                                 .addGap(39, 39, 39)));
 
+        // Definição do layout para getContentPane()
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+        layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+
         jTProdutos.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][] {
 
                 },
                 new String[] {
-                        "ID", "DESCRIÇÃO", "QTD", "PREÇO", "FORNECEDOR", "CATEGORIA"
+                        "ID", "DESCRIÇÃO", "QUANTIDADE", "PREÇO", "FORNECEDOR", "CATEGORIA"
                 }) {
             boolean[] canEdit = new boolean[] {
                     false, false, false, false, false
@@ -226,7 +262,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 252,
                                         Short.MAX_VALUE)));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -244,11 +280,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
                                         javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)));
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
     private void adicionarProduto(java.awt.event.ActionEvent evt) throws SQLException {
-        // Verifica se os campos obrigatórios foram preenchidos
-        if (txtDesc.getText().isEmpty() || txtQtd.getText().isEmpty() || txtPreco.getText().isEmpty()
+        if (txtNome.getText().isEmpty() || txtQtd.getText().isEmpty() || txtPreco.getText().isEmpty()
                 || txtFornecedor.getText().isEmpty() || txtCategoria.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Todos os campos devem ser preenchidos.");
             return;
@@ -258,7 +293,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             Produto produto = new Produto();
             FornecedorDAO fornecedorDAO = new FornecedorDAO();
 
-            produto.setNome(txtDesc.getText());
+            produto.setNome(txtNome.getText());
             produto.setQuantidade(Integer.parseInt(txtQtd.getText()));
             produto.setPreco(Double.parseDouble(txtPreco.getText()));
             produto.setFornecedor(fornecedorDAO.getFornecedorByNome(txtFornecedor.getText()));
@@ -290,7 +325,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }
 
     private void limparCampos() {
-        txtDesc.setText("");
+        txtNome.setText("");
         txtQtd.setText("");
         txtPreco.setText("");
         txtFornecedor.setText("");
@@ -325,36 +360,39 @@ public class TelaPrincipal extends javax.swing.JFrame {
         int selectedRow = jTProdutos.getSelectedRow();
         ProdutoDAO produtoDAO = new ProdutoDAO();
         FornecedorDAO fornecedorDAO = new FornecedorDAO();
-    
+
         if (selectedRow != -1) {
             int idProduto = Integer.parseInt(jTProdutos.getValueAt(selectedRow, 0).toString());
             Produto produtoExistente = produtoDAO.getProdutoById(idProduto);
 
-            String novoNome = txtDesc.getText().isEmpty() ? produtoExistente.getNome() : txtDesc.getText();
-            int novaQtd = txtQtd.getText().isEmpty() ? produtoExistente.getQuantidade() : Integer.parseInt(txtQtd.getText());
-            double novoPreco = txtPreco.getText().isEmpty() ? produtoExistente.getPreco() : Double.parseDouble(txtPreco.getText());
-    
-            Fornecedor novoFornecedor = txtFornecedor.getText().isEmpty() 
-                                        ? produtoExistente.getFornecedor() 
-                                        : fornecedorDAO.getFornecedorByNome(txtFornecedor.getText());
-            
-            String novaCategoria = txtCategoria.getText().isEmpty() ? produtoExistente.getCategoria() : txtCategoria.getText();
-    
+            String novoNome = txtNome.getText().isEmpty() ? produtoExistente.getNome() : txtNome.getText();
+            int novaQtd = txtQtd.getText().isEmpty() ? produtoExistente.getQuantidade()
+                    : Integer.parseInt(txtQtd.getText());
+            double novoPreco = txtPreco.getText().isEmpty() ? produtoExistente.getPreco()
+                    : Double.parseDouble(txtPreco.getText());
+
+            Fornecedor novoFornecedor = txtFornecedor.getText().isEmpty()
+                    ? produtoExistente.getFornecedor()
+                    : fornecedorDAO.getFornecedorByNome(txtFornecedor.getText());
+
+            String novaCategoria = txtCategoria.getText().isEmpty() ? produtoExistente.getCategoria()
+                    : txtCategoria.getText();
+
             produtoExistente.setNome(novoNome);
             produtoExistente.setQuantidade(novaQtd);
             produtoExistente.setPreco(novoPreco);
             produtoExistente.setFornecedor(novoFornecedor);
             produtoExistente.setCategoria(novaCategoria);
-    
+
             produtoDAO.update(produtoExistente);
-    
+
             DefaultTableModel dtmProdutos = (DefaultTableModel) jTProdutos.getModel();
             dtmProdutos.setValueAt(produtoExistente.getNome(), selectedRow, 1);
             dtmProdutos.setValueAt(produtoExistente.getQuantidade(), selectedRow, 2);
             dtmProdutos.setValueAt(produtoExistente.getPreco(), selectedRow, 3);
             dtmProdutos.setValueAt(produtoExistente.getFornecedor().getNome(), selectedRow, 4);
             dtmProdutos.setValueAt(produtoExistente.getCategoria(), selectedRow, 5);
-    
+
             limparCampos();
             JOptionPane.showMessageDialog(null, "Produto atualizado com sucesso!");
         } else {
@@ -395,15 +433,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null,
                     ex);
         }
-        // </editor-fold>
-
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
                     new TelaPrincipal().setVisible(true);
                 } catch (SQLException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -423,9 +457,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTProdutos;
-    private javax.swing.JTextField txtDesc;
+    private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtPreco;
     private javax.swing.JTextField txtQtd;
     private javax.swing.JTextField txtFornecedor;
     private javax.swing.JTextField txtCategoria;
+    private javax.swing.JMenu jMenu;
+    private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.GroupLayout layout;
 }
