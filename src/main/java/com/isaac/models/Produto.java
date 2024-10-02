@@ -1,7 +1,5 @@
 package com.isaac.models;
 
-import java.sql.SQLException;
-
 
 public class Produto {
     private int idProduto;
@@ -33,7 +31,7 @@ public class Produto {
         return fornecedor;
     }
 
-    public void setFornecedor(Fornecedor fornecedor) throws SQLException {
+    public void setFornecedor(Fornecedor fornecedor) {
         this.fornecedor = fornecedor;
     }
 
