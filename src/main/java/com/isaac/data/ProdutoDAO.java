@@ -16,15 +16,16 @@ public class ProdutoDAO implements DAO<Produto> {
     public List<Produto> getAll() throws SQLException {
         List<Produto> produtos = new ArrayList<>();
         String query = "SELECT * FROM produtos";
-        
+
         try (Connection conn = DriverManager.getConnection(urlDatabase);
-             PreparedStatement stmt = conn.prepareStatement(query);
-             ResultSet res = stmt.executeQuery()) {
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet res = stmt.executeQuery()) {
 
             System.out.println("Conexão bem sucedida!");
 
             while (res.next()) {
                 Produto produto = new Produto();
+                produto.setIdProduto(res.getInt("id_produto"));
                 produto.setNome(res.getString("nome"));
                 produto.setCategoria(res.getString("categoria"));
                 produto.setQuantidade(res.getInt("quantidade"));
@@ -46,11 +47,10 @@ public class ProdutoDAO implements DAO<Produto> {
     public Produto getProdutoById(int id_produto) throws SQLException {
         Produto produto = new Produto();
         String query = "SELECT * FROM produtos WHERE id_produto = ?";
-        
-        try (Connection conn = DriverManager.getConnection(urlDatabase);
-             PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setQueryTimeout(30);
+        try (Connection conn = DriverManager.getConnection(urlDatabase);
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+
             stmt.setInt(1, id_produto);
 
             try (ResultSet res = stmt.executeQuery()) {
@@ -73,13 +73,41 @@ public class ProdutoDAO implements DAO<Produto> {
         return produto;
     }
 
+    public Produto getProdutoByNome(String nome_produto) throws SQLException {
+        Produto produto = new Produto();
+        String query = "SELECT * FROM produtos WHERE nome = ?";
+
+        try (Connection conn = DriverManager.getConnection(urlDatabase);
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, nome_produto);
+
+            try (ResultSet res = stmt.executeQuery()) {
+                if (res.next()) {
+                    produto.setIdProduto(res.getInt("id_produto"));
+                    produto.setNome(res.getString("nome"));
+                    produto.setCategoria(res.getString("categoria"));
+                    produto.setQuantidade(res.getInt("quantidade"));
+                    produto.setPreco(res.getDouble("preco"));
+
+                    FornecedorDAO fornecedorDAO = new FornecedorDAO();
+                    Fornecedor fornecedor = fornecedorDAO.getFornecedorById(res.getInt("id_fornecedor"));
+                    produto.setFornecedor(fornecedor);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao obter produto por nome");
+            e.printStackTrace();
+        }
+        return produto;
+    }
+
     public void add(Produto produto) throws SQLException {
         String insert = "INSERT INTO produtos(nome, categoria, quantidade, preco, id_fornecedor) VALUES(?, ?, ?, ?, ?)";
-        
-        try (Connection con = DriverManager.getConnection(urlDatabase);
-             PreparedStatement stmt = con.prepareStatement(insert)) {
 
-            stmt.setQueryTimeout(30);
+        try (Connection con = DriverManager.getConnection(urlDatabase);
+                PreparedStatement stmt = con.prepareStatement(insert)) {
+
             stmt.setString(1, produto.getNome());
             stmt.setString(2, produto.getCategoria());
             stmt.setInt(3, produto.getQuantidade());
@@ -96,11 +124,10 @@ public class ProdutoDAO implements DAO<Produto> {
 
     public void update(Produto produto) throws SQLException {
         String update = "UPDATE produtos SET nome = ?, categoria = ?, quantidade = ?, preco = ?, id_fornecedor = ? WHERE id_produto = ?";
-        
-        try (Connection con = DriverManager.getConnection(urlDatabase);
-             PreparedStatement stmt = con.prepareStatement(update)) {
 
-            stmt.setQueryTimeout(30);
+        try (Connection con = DriverManager.getConnection(urlDatabase);
+                PreparedStatement stmt = con.prepareStatement(update)) {
+
             stmt.setString(1, produto.getNome());
             stmt.setString(2, produto.getCategoria());
             stmt.setInt(3, produto.getQuantidade());
@@ -118,11 +145,10 @@ public class ProdutoDAO implements DAO<Produto> {
 
     public void delete(int idProduto) throws SQLException {
         String delete = "DELETE FROM produtos WHERE id_produto = ?";
-        
-        try (Connection con = DriverManager.getConnection(urlDatabase);
-             PreparedStatement stmt = con.prepareStatement(delete)) {
 
-            stmt.setQueryTimeout(30);
+        try (Connection con = DriverManager.getConnection(urlDatabase);
+                PreparedStatement stmt = con.prepareStatement(delete)) {
+
             stmt.setInt(1, idProduto);
             stmt.executeUpdate();
             System.out.println("Produto deletado com sucesso!");

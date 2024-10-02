@@ -68,6 +68,35 @@ public class FornecedorDAO implements DAO<Fornecedor> {
         return fornecedor;
     }
 
+    public Fornecedor getFornecedorByNome(String nome_fornecedor) throws SQLException {
+        Fornecedor fornecedor = new Fornecedor();
+        String query = "SELECT * FROM fornecedores WHERE nome = ?";
+
+        try (Connection conn = DriverManager.getConnection(urlDatabase);
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, nome_fornecedor);
+            try (ResultSet res = stmt.executeQuery()) {
+
+                if (res.next()) {
+                    fornecedor.setIdFornecedor(res.getInt("id_fornecedor"));
+                    fornecedor.setNome(res.getString("nome"));
+                    fornecedor.setEndereco(res.getString("endereco"));
+                    fornecedor.setContato(res.getString("contato"));
+                } else {
+                    System.out.println("Fornecedor com nome " + nome_fornecedor + " não encontrado.");
+                }
+
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao obter fornecedor por id.");
+            e.printStackTrace();
+        }
+
+        return fornecedor;
+    }
+
+
     public void add(Fornecedor fornecedor) throws SQLException {
         String insert = "INSERT INTO fornecedores(nome, contato, endereco) VALUES(?, ?, ?)";
 
