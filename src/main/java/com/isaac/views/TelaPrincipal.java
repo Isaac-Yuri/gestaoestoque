@@ -79,8 +79,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuItem1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    TelaMovimencao telaMovimencao = new TelaMovimencao();
-                    telaMovimencao.setVisible(true);
+                    TelaMovimentacao telaMovimentacao = new TelaMovimentacao();
+                    telaMovimentacao.setVisible(true);
 
                     dispose();
                 } catch (SQLException ex) {

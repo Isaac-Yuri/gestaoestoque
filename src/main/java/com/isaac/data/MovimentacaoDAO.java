@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.isaac.models.Movimentacao;
+import com.isaac.models.Produto;
 
 public class MovimentacaoDAO implements DAO<Movimentacao> {
 
@@ -21,13 +22,16 @@ public class MovimentacaoDAO implements DAO<Movimentacao> {
              ResultSet res = stmt.executeQuery()) {
 
             System.out.println("Conexão bem sucedida!");
-
+            ProdutoDAO produtoDAO = new ProdutoDAO();
+            
             while (res.next()) {
                 Movimentacao movimentacao = new Movimentacao();
+                Produto produto = produtoDAO.getProdutoById(res.getInt("produto_id"));
                 movimentacao.setIdMovimentacao(res.getInt("id_movimentacao"));
                 movimentacao.setTipo(res.getString("tipo"));
                 movimentacao.setQuantidade(res.getInt("quantidade"));
                 movimentacao.setData(res.getString("data"));
+                movimentacao.setIdProduto(produto);
 
                 movimentacoes.add(movimentacao);
             }
