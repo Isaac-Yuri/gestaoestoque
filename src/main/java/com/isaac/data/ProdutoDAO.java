@@ -5,10 +5,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.isaac.models.Fornecedor;
+import com.isaac.models.Movimentacao;
 import com.isaac.models.Produto;
 
 public class ProdutoDAO implements DAO<Produto> {
@@ -120,6 +123,17 @@ public class ProdutoDAO implements DAO<Produto> {
             System.out.println("ERRO AO CADASTRAR PRODUTO!");
             e.printStackTrace();
         }
+
+        Movimentacao movimentacao = new Movimentacao();
+        movimentacao.setTipo("entrada");
+        movimentacao.setQuantidade(produto.getQuantidade());
+        LocalDate date = LocalDate.now();
+        movimentacao.setData(date.toString());
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        movimentacao.setIdProduto(produtoDAO.getProdutoByNome(produto.getNome()));
+
+        MovimentacaoDAO movimentacaoDAO = new MovimentacaoDAO();
+        movimentacaoDAO.add(movimentacao);
     }
 
     public void update(Produto produto) throws SQLException {
@@ -128,8 +142,22 @@ public class ProdutoDAO implements DAO<Produto> {
         try (Connection con = DriverManager.getConnection(urlDatabase);
                 PreparedStatement stmt = con.prepareStatement(update)) {
 
+            Produto produtoAtual = new ProdutoDAO().getProdutoById(produto.getIdProduto());
+
             stmt.setString(1, produto.getNome());
             stmt.setString(2, produto.getCategoria());
+
+            if(produto.getQuantidade() < produtoAtual.getQuantidade()) {
+                Movimentacao movimentacao = new Movimentacao();
+                movimentacao.setTipo("saida");
+                movimentacao.setIdProduto(produto);
+                movimentacao.setQuantidade(produtoAtual.getQuantidade() - produto.getQuantidade());
+                LocalDate localDate = LocalDate.now();
+                movimentacao.setData(localDate.toString());
+
+                new MovimentacaoDAO().add(movimentacao);
+            }
+
             stmt.setInt(3, produto.getQuantidade());
             stmt.setDouble(4, produto.getPreco());
             stmt.setInt(5, produto.getFornecedor().getIdFornecedor());

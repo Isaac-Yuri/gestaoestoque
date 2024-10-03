@@ -43,7 +43,7 @@ public class MovimentacaoDAO implements DAO<Movimentacao> {
     }
 
     public void add(Movimentacao movimentacao) throws SQLException {
-        String insert = "INSERT INTO movimentacoes(quantidade, tipo, data) VALUES(?, ?, ?)";
+        String insert = "INSERT INTO movimentacoes(quantidade, tipo, data, produto_id) VALUES(?, ?, ?, ?)";
 
         try (Connection con = DriverManager.getConnection(urlDatabase);
              PreparedStatement stmt = con.prepareStatement(insert)) {
@@ -52,6 +52,7 @@ public class MovimentacaoDAO implements DAO<Movimentacao> {
             stmt.setInt(1, movimentacao.getQuantidade());
             stmt.setString(2, movimentacao.getTipo());
             stmt.setString(3, movimentacao.getData());
+            stmt.setInt(4, movimentacao.getIdProduto().getIdProduto());
 
             stmt.executeUpdate();
             System.out.println("Movimentação cadastrada com sucesso!");
