@@ -12,7 +12,6 @@ import java.util.List;
 import com.isaac.data.FornecedorDAO;
 import com.isaac.models.Fornecedor;
 
-
 public class TelaFornecedores extends javax.swing.JFrame {
 
         @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -83,12 +82,11 @@ public class TelaFornecedores extends javax.swing.JFrame {
                 jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/produtos (1).png")));
                 jMenuItem2.setText("Produtos");
                 jMenu.add(jMenuItem2);
-                jMenu.addActionListener(new ActionListener() {
+                jMenuItem2.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                                 try {
                                         TelaPrincipal telaPrincipal = new TelaPrincipal();
                                         telaPrincipal.setVisible(true);
-
                                         dispose();
                                 } catch (SQLException ex) {
                                         ex.printStackTrace();
@@ -196,7 +194,7 @@ public class TelaFornecedores extends javax.swing.JFrame {
                                                                                 javax.swing.GroupLayout.Alignment.BASELINE)
                                                                                 .addComponent(jLabel1)
                                                                                 .addComponent(jLabel2)
-                                                                                .addComponent(jLabel3)) 
+                                                                                .addComponent(jLabel3))
                                                                 .addPreferredGap(
                                                                                 javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                                 .addGroup(jPanel1Layout.createParallelGroup(
@@ -316,7 +314,7 @@ public class TelaFornecedores extends javax.swing.JFrame {
 
                         DefaultTableModel dtmFornecedores = (DefaultTableModel) jTFornecedores.getModel();
                         Object[] dados = {
-                                fornecedor.getIdFornecedor(),
+                                        fornecedor.getIdFornecedor(),
                                         fornecedor.getNome(),
                                         fornecedor.getContato(),
                                         fornecedor.getEndereco()

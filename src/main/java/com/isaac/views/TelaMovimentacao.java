@@ -46,7 +46,6 @@ public class TelaMovimentacao extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestão De Estoque - Movimentação");
 
-        // Configurando a tabela de movimentações
         jTMovimentacoes.setModel(new javax.swing.table.DefaultTableModel(
             new Object[][]{},
             new String[]{
@@ -64,7 +63,6 @@ public class TelaMovimentacao extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(jTMovimentacoes);
 
-        // Configurando o menu
         jMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/preco-baixo.png")));
         jMenu.setText("Movimentações");
 
@@ -97,7 +95,6 @@ public class TelaMovimentacao extends javax.swing.JFrame {
         jMenuBar.add(jMenu);
         setJMenuBar(jMenuBar);
 
-        // Layout da tabela
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
