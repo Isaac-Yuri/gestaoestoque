@@ -72,25 +72,22 @@ public class TelaMovimencao extends javax.swing.JFrame {
 
         setTitle("Gestão De Estoque - Movimentação");
 
+        jMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/preco-baixo.png"))); 
+        jMenu.setText("Movimentações");
 
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/preco-baixo.png")));
-        jMenuItem1.setText("Movimentação");
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/produtos (1).png")));
+        jMenuItem1.setText("Produtos");
         jMenu.add(jMenuItem1);
-
-        jMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/produtos (1).png"))); 
-        jMenu.setText("Produtos");
         jMenu.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                        // Quando o item for clicado, troca para OutraTela
-                        java.awt.EventQueue.invokeLater(new Runnable() {
-                                public void run() {
-                                    try {
-                                        new TelaPrincipal().setVisible(true);
-                                    } catch (SQLException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
+                        try {
+                            TelaPrincipal telaPrincipal = new TelaPrincipal();
+                            telaPrincipal.setVisible(true);
+        
+                            dispose();
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                        }
                     }
         });
     
@@ -100,16 +97,14 @@ public class TelaMovimencao extends javax.swing.JFrame {
 
         jMenuItem2.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                        // Quando o item for clicado, troca para OutraTela
-                        java.awt.EventQueue.invokeLater(new Runnable() {
-                                public void run() {
-                                    try {
-                                        new TelaFornecedores().setVisible(true);
-                                    } catch (SQLException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
+                        try {
+                            TelaFornecedores telaFornecedores = new TelaFornecedores();
+                            telaFornecedores.setVisible(true);
+        
+                            dispose();
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                        }
                     }
         });
 
@@ -432,51 +427,6 @@ public class TelaMovimencao extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Selecione um produto para atualizar.");
         }
     }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
-        // (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the default
-         * look and feel.
-         * For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaMovimencao.class.getName()).log(java.util.logging.Level.SEVERE, null,
-                    ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaMovimencao.class.getName()).log(java.util.logging.Level.SEVERE, null,
-                    ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaMovimencao.class.getName()).log(java.util.logging.Level.SEVERE, null,
-                    ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaMovimencao.class.getName()).log(java.util.logging.Level.SEVERE, null,
-                    ex);
-        }
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    new TelaMovimencao().setVisible(true);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
 
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -67,16 +68,40 @@ public class TelaFornecedores extends javax.swing.JFrame {
 
         setTitle("Gestão De Estoque - Fornecedores");
 
-        jMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/produtos (1).png"))); 
-        jMenu.setText("Produtos");
+        jMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/truck.png"))); 
+        jMenu.setText("Fornecedores");
 
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/preco-baixo.png")));
         jMenuItem1.setText("Movimentação");
         jMenu.add(jMenuItem1);
+        jMenuItem1.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        TelaMovimencao telaMovimencao = new TelaMovimencao();
+                        telaMovimencao.setVisible(true);
+    
+                        dispose();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
 
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/truck.png")));
-        jMenuItem2.setText("Fornecedores");
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/produtos (1).png")));
+        jMenuItem2.setText("Produtos");
         jMenu.add(jMenuItem2);
+        jMenu.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                        try {
+                            TelaPrincipal telaPrincipal = new TelaPrincipal();
+                            telaPrincipal.setVisible(true);
+        
+                            dispose();
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+        });
 
         jMenuBar.add(jMenu);
 
@@ -393,50 +418,6 @@ public class TelaFornecedores extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Selecione um produto para atualizar.");
         }
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
-        // (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the default
-         * look and feel.
-         * For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null,
-                    ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null,
-                    ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null,
-                    ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null,
-                    ex);
-        }
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    new TelaFornecedores().setVisible(true);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
     private javax.swing.JButton jButton1;

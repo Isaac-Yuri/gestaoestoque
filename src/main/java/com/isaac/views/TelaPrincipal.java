@@ -69,45 +69,41 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         setTitle("Gestão De Estoque - Produtos");
 
-        jMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/produtos (1).png"))); 
+        jMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/produtos (1).png")));
         jMenu.setText("Produtos");
 
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/preco-baixo.png")));
         jMenuItem1.setText("Movimentação");
         jMenu.add(jMenuItem1);
+        
         jMenuItem1.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                        // Quando o item for clicado, troca para OutraTela
-                        java.awt.EventQueue.invokeLater(new Runnable() {
-                                public void run() {
-                                    try {
-                                        new TelaMovimencao().setVisible(true);
-                                    } catch (SQLException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                    }
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    TelaMovimencao telaMovimencao = new TelaMovimencao();
+                    telaMovimencao.setVisible(true);
+
+                    dispose();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
         });
 
-    
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/truck.png"))); 
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/truck.png")));
         jMenuItem2.setText("Fornecedores");
         jMenu.add(jMenuItem2);
 
         jMenuItem2.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                        // Quando o item for clicado, troca para OutraTela
-                        java.awt.EventQueue.invokeLater(new Runnable() {
-                                public void run() {
-                                    try {
-                                        new TelaFornecedores().setVisible(true);
-                                    } catch (SQLException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                    }
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    TelaFornecedores telaFornecedores = new TelaFornecedores();
+                    telaFornecedores.setVisible(true);
+
+                    dispose();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
         });
 
         jMenuBar.add(jMenu);
@@ -429,51 +425,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
-        // (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the default
-         * look and feel.
-         * For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null,
-                    ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null,
-                    ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null,
-                    ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null,
-                    ex);
-        }
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    new TelaPrincipal().setVisible(true);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -495,5 +446,4 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.GroupLayout layout;
 }
