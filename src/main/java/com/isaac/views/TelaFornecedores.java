@@ -5,7 +5,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -14,10 +13,10 @@ import com.isaac.data.ProdutoDAO;
 import com.isaac.models.Fornecedor;
 import com.isaac.models.Produto;
 
-public class TelaPrincipal extends javax.swing.JFrame {
+public class TelaFornecedores extends javax.swing.JFrame {
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public TelaPrincipal() throws SQLException {
+    public TelaFornecedores() throws SQLException {
 
         initComponents();
 
@@ -37,7 +36,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
             modelo.addRow(dados);
         }
 
-        // Adicionar ordenação na tabela
         jTProdutos.setRowSorter(new TableRowSorter(modelo));
     }
 
@@ -67,7 +65,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        setTitle("Gestão De Estoque - Produtos");
+        setTitle("Gestão De Estoque - Fornecedores");
 
         jMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/produtos (1).png"))); 
         jMenu.setText("Produtos");
@@ -75,50 +73,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/preco-baixo.png")));
         jMenuItem1.setText("Movimentação");
         jMenu.add(jMenuItem1);
-        jMenuItem1.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                        // Quando o item for clicado, troca para OutraTela
-                        java.awt.EventQueue.invokeLater(new Runnable() {
-                                public void run() {
-                                    try {
-                                        new TelaMovimencao().setVisible(true);
-                                    } catch (SQLException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                    }
-        });
 
-    
-        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/truck.png"))); 
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/truck.png")));
         jMenuItem2.setText("Fornecedores");
         jMenu.add(jMenuItem2);
-
-        jMenuItem2.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                        // Quando o item for clicado, troca para OutraTela
-                        java.awt.EventQueue.invokeLater(new Runnable() {
-                                public void run() {
-                                    try {
-                                        new TelaFornecedores().setVisible(true);
-                                    } catch (SQLException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                    }
-        });
 
         jMenuBar.add(jMenu);
 
         setJMenuBar(jMenuBar);
 
         jLabel1.setText("Nome");
-        jLabel2.setText("Quantidade");
-        jLabel3.setText("Preço");
-        jLabel4.setText("Fornecedor");
-        jLabel5.setText("Categoria");
+        jLabel4.setText("Contato");
+        jLabel5.setText("Endereço");
 
         jButton1.setText("Cadastrar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -266,7 +232,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
                 },
                 new String[] {
-                        "ID", "DESCRIÇÃO", "QUANTIDADE", "PREÇO", "FORNECEDOR", "CATEGORIA"
+                        "ID", "FORNECEDOR"
                 }) {
             boolean[] canEdit = new boolean[] {
                     false, false, false, false, false
@@ -465,14 +431,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new TelaPrincipal().setVisible(true);
+                    new TelaFornecedores().setVisible(true);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
         });
     }
-
 
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

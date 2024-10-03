@@ -93,4 +93,8 @@ public class MovimentacaoDAO implements DAO<Movimentacao> {
             e.printStackTrace();
         }
     }
+
+    public void setIdMovimentacao(int parseInt) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

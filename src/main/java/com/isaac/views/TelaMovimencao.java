@@ -13,32 +13,34 @@ import com.isaac.data.FornecedorDAO;
 import com.isaac.data.ProdutoDAO;
 import com.isaac.models.Fornecedor;
 import com.isaac.models.Produto;
+import com.isaac.data.MovimentacaoDAO;
+import com.isaac.models.Movimentacao;
 
-public class TelaPrincipal extends javax.swing.JFrame {
+
+public class TelaMovimencao extends javax.swing.JFrame {
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public TelaPrincipal() throws SQLException {
+    public TelaMovimencao() throws SQLException {
 
         initComponents();
 
-        ProdutoDAO dao = new ProdutoDAO();
-        List<Produto> produtos = dao.getAll();
+        MovimentacaoDAO mov = new MovimentacaoDAO();
+        List<Movimentacao> movimentacoes = mov.getAll();
 
-        DefaultTableModel modelo = (DefaultTableModel) jTProdutos.getModel();
-        for (Produto produto : produtos) {
+        DefaultTableModel modelo = (DefaultTableModel) jTMovimentos.getModel();
+        for (Movimentacao movs : movimentacoes) {
             Object[] dados = {
-                    produto.getIdProduto(),
-                    produto.getNome(),
-                    produto.getQuantidade(),
-                    produto.getPreco(),
-                    produto.getFornecedor().getNome(),
-                    produto.getCategoria()
+                movs.getIdMovimentacao(),
+                movs.getTipo(),
+                movs.getIdProduto(),
+                movs.getQuantidade(),
+                movs.getData()
             };
             modelo.addRow(dados);
         }
 
         // Adicionar ordenação na tabela
-        jTProdutos.setRowSorter(new TableRowSorter(modelo));
+        jTMovimentos.setRowSorter(new TableRowSorter(modelo));
     }
 
     private void initComponents() throws SQLException {
@@ -64,24 +66,26 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTProdutos = new javax.swing.JTable();
+        jTMovimentos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        setTitle("Gestão De Estoque - Produtos");
+        setTitle("Gestão De Estoque - Movimentação");
 
-        jMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/produtos (1).png"))); 
-        jMenu.setText("Produtos");
 
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/preco-baixo.png")));
         jMenuItem1.setText("Movimentação");
         jMenu.add(jMenuItem1);
-        jMenuItem1.addActionListener(new ActionListener() {
+
+        jMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/produtos (1).png"))); 
+        jMenu.setText("Produtos");
+        jMenu.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                         // Quando o item for clicado, troca para OutraTela
                         java.awt.EventQueue.invokeLater(new Runnable() {
                                 public void run() {
                                     try {
-                                        new TelaMovimencao().setVisible(true);
+                                        new TelaPrincipal().setVisible(true);
                                     } catch (SQLException e) {
                                         e.printStackTrace();
                                     }
@@ -89,7 +93,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
                             });
                     }
         });
-
     
         jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("../images/truck.png"))); 
         jMenuItem2.setText("Fornecedores");
@@ -114,11 +117,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar);
 
-        jLabel1.setText("Nome");
-        jLabel2.setText("Quantidade");
-        jLabel3.setText("Preço");
-        jLabel4.setText("Fornecedor");
-        jLabel5.setText("Categoria");
+        jLabel1.setText("ID do movimento");
+        jLabel2.setText("Tipo");
+        jLabel3.setText("ID do produto");
+        jLabel4.setText("Quantidade");
+        jLabel5.setText("Data");
 
         jButton1.setText("Cadastrar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -266,7 +269,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
                 },
                 new String[] {
-                        "ID", "DESCRIÇÃO", "QUANTIDADE", "PREÇO", "FORNECEDOR", "CATEGORIA"
+                        "ID DA MOVIMENTAÇÃO", "TIPO", "ID DO PRODUTO", "QUANTIDADE", "DATA"
                 }) {
             boolean[] canEdit = new boolean[] {
                     false, false, false, false, false
@@ -319,6 +322,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
 
         try {
+            
             Produto produto = new Produto();
             FornecedorDAO fornecedorDAO = new FornecedorDAO();
 
@@ -450,22 +454,22 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null,
+            java.util.logging.Logger.getLogger(TelaMovimencao.class.getName()).log(java.util.logging.Level.SEVERE, null,
                     ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null,
+            java.util.logging.Logger.getLogger(TelaMovimencao.class.getName()).log(java.util.logging.Level.SEVERE, null,
                     ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null,
+            java.util.logging.Logger.getLogger(TelaMovimencao.class.getName()).log(java.util.logging.Level.SEVERE, null,
                     ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null,
+            java.util.logging.Logger.getLogger(TelaMovimencao.class.getName()).log(java.util.logging.Level.SEVERE, null,
                     ex);
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new TelaPrincipal().setVisible(true);
+                    new TelaMovimencao().setVisible(true);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -486,6 +490,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTProdutos;
+    private javax.swing.JTable jTMovimentos;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtPreco;
     private javax.swing.JTextField txtQtd;
